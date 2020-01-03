@@ -1,0 +1,294 @@
+<!--
+User Profile Sidebar by @keenthemes
+A component of Metronic Theme - #1 Selling Bootstrap 3 Admin Theme in Themeforest: http://j.mp/metronictheme
+Licensed under MIT
+-->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title></title>
+    <link rel="stylesheet" href="../../assets/fonts/material-icon/css/material-design-iconic-font.min.css">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+    <link rel="stylesheet" type="text/css" href="../../resources/css/bootstrap.css">
+    <link type="text/css" rel="stylesheet" href="../../resources/css/style.css" />
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="../../index.html"><img src="../../assets/images/logo.png"></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="../../index.html">Home
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Help</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="row profile">
+            <div class="col-md-3">
+                <!-- SIDEBAR USERPIC -->
+                <!--    <div class="profile-userpic">
+                    <img src="image.jpg" class="img-responsive" alt="">
+                </div> -->
+                <!-- END SIDEBAR USERPIC -->
+                <!-- SIDEBAR USER TITLE -->
+                <div class="img-circle">
+                    <div class="hovereffect" onclick="$('#ChangeProfile').click()">
+                        <img class="img-responsive" id="userimage" src="" alt="">
+                        <div class="overlay">
+                                <p>
+                                    <a target="_blank" href="https://www.facebook.com/" class="zmdi zmdi-facebook"></a>
+                                </p>
+                                <p>
+                                    <a target="_blank" href="https://www.youtube.com/" class="zmdi zmdi-youtube-play"></a>
+                                </p>
+                                <p>
+                                    <a target="_blank" target="_blank" href="https://aboutme.google.com/u/0/" class="zmdi zmdi-google-plus"></a>
+                                </p>
+                                <p>
+                                    <a target="_blank" href="https://www.instagram.com/" class="zmdi zmdi-instagram"></a>
+                                </p>
+                                <p>
+                                    <a target="_blank" href="https://np.linkedin.com/" class="zmdi zmdi-linkedin"></a>
+                                </p>
+                                <p><label for="ChangeProfile">Change Picture</label></p>
+                                <input type="file" style="display: none;" id="ChangeProfile" onclick="event.stopPropagation()">
+                            </div>
+                    </div>
+                </div>
+                <div class="profile-usertitle">
+                    <div class="profile-usertitle-name" id="username">
+                        User Name
+                    </div>
+                    <div class="profile-usertitle-job">
+                        Admin Account
+                    </div>
+                </div>
+                <!-- END SIDEBAR USER TITLE -->
+                <!-- SIDEBAR BUTTONS -->
+                <div class="profile-userbuttons">
+                    <button type="button" class="btn btn-success btn-sm">Follow</button>
+                    <button type="button" class="btn btn-danger btn-sm">Message</button>
+                </div>
+                <!-- END SIDEBAR BUTTONS -->
+                <!-- SIDEBAR MENU -->
+                <div class="profile-usermenu">
+                    <ul class="list-group">
+                        <li id="showdashboard" class=" list-group-item">
+                            <a href="#">
+                                <i class="zmdi zmdi-home"></i>
+                                Dashboard</a>
+                        </li>
+                        <li id="showusers" class="list-group-item">
+                            <a href="#">
+                                <i class="zmdi zmdi-home"></i>
+                                All Users</a>
+                        </li>
+                        <li id="showprofile" class="list-group-item">
+                            <a href="#">
+                                <i class="zmdi zmdi-face"></i>
+                                Profile </a>
+                        </li>
+                        <li id="showFeedBack" class="list-group-item">
+                            <a href="#">
+                                <i class="zmdi zmdi-file"></i>
+                                Show FeedBack</a>
+                        </li>
+                        <li id="adminlogout" class="list-group-item">
+                            <a href="#">
+                                <i class="zmdi zmdi-power"></i>
+                                LogOut</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- END MENU -->
+            </div>
+            <!-- Admin Dashboard -->
+            <div id="admindashboard" class="col-md-9">
+                <div class="profile-content">
+                    <h1>Dashboard</h1>
+                    <label>Admin dashboard</label>
+
+                    <div class="mt-3 text-center">
+                        <i class="zmdi zmdi-circle-o text-info" style="font-size: 100px;position: relative;">
+                            <span id="user-count" class="text-center" style="font-size: 20px;position: absolute;display: block;top: 50%;transform: translate(-50%,-50%);left: 50%;"></span>
+                        </i>
+
+                    </div>
+                    <div class="text-center">
+                        <h4>User Count</h4>
+                    </div>
+                </div>
+            </div>
+            <!-- Admin Profile -->
+            <div style="display: none;" id="adminprofile" class="col-md-9">
+                <div class="profile-content">
+                    <h1>Profile</h1>
+                    <form method="POST" class="editadminprofile" id="editadminprofile" border="2px" style="border: 1px solid #555;border-radius: 10px;padding: 10px;margin-bottom: 10px;">
+                        <br>
+                        <div class="form-group ">
+                            <div class="input-group">
+                                <label for="fname"><i class="zmdi input-group-text zmdi-account material-icons-name"></i></label>
+                                <input class="form-control" type="text" required="" name="fname" id="fname" placeholder="Your First Name" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <label for="lname"><i class="zmdi input-group-text zmdi-account material-icons-name"></i></label>
+                                <input class="form-control" type="text" required="" name="lname" id="lname" placeholder="Your Last Name" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <label for="email"><i class="zmdi input-group-text zmdi-email"></i></label>
+                                <input class="form-control" disabled="" type="email" required="" name="email" id="email" placeholder="Your Email" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <label for="address"><i class="zmdi input-group-text zmdi-map"></i></label>
+                                <input class="form-control" type="text" required="" name="address" id="address" placeholder="Your Address" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <label><i class="zmdi input-group-text zmdi-map"></i></label>
+                                <select id="gender" class="form-control" id="sel1">
+                                    <option>--Not Specified--</option>
+                                    <option>Male</option>
+                                    <option>Female</option>
+                                    <option>Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <label for="country"><i class="zmdi input-group-text zmdi-map"></i></label>
+                                <input class="form-control" type="text" required="" name="country" id="country" placeholder="Your Country" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <label for="phone"><i class="zmdi input-group-text zmdi-map"></i></label>
+                                <input class="form-control" type="text" required="" name="phone" id="phone" placeholder="Your Phone" />
+                            </div>
+                        </div>
+                        <p id="message"></p>
+                        <div class="form-group form-button" style="margin-left: 60px">
+                            <button disabled="" type="submit" name="editprofile" id="editprofile" class="btn btn-info"> Save </button>
+                        </div>
+                    </form>
+                    <form method="POST" class="editadminpassword" id="editpassword" border="2px" style="border: 1px solid #555;border-radius: 10px;padding: 10px;">
+                        <h3>Change Password</h3>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <label for="pass"><i class="zmdi input-group-text zmdi-lock"></i></label>
+                                <input class="form-control" type="password" name="currentpassword" id="currentpassword" placeholder="Type your current password" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <label for="re-pass"><i class="zmdi input-group-text zmdi-lock-outline"></i></label>
+                                <input class="form-control" type="password" name="newpassword" id="newpassword" placeholder="Your new password" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <label for="re-pass"><i class="zmdi input-group-text zmdi-lock-outline"></i></label>
+                                <input class="form-control" type="password" name="retypepassword" id="retypepassword" placeholder="Re-type your password" />
+                            </div>
+                        </div>
+                        <p id="Pmessage"></p>
+                        <div class="form-group form-button" style="margin-left: 60px">
+                            <button disabled="" name="changepassword" id="changepassword" class="btn btn-info">Change Password</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- UsersList -->
+            <div style="display: none;" id="userslist" class="col-md-9">
+                <div class="profile-content">
+                    <h1>Dashboard</h1>
+                    <div class="col-md-4">
+                        <label for="sel1">Categories:</label>
+                        <select class="form-control" id="sel1">
+                            <option>--Select Category--</option>
+                            <option>Active</option>
+                            <option>Blocked</option>
+                        </select>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table class="table" id="mytable">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col">Id</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Email</th>
+                                        <th scope="col">Country</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col">CreatedAt</th>
+                                        <th scope="col">Block/Unblock</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="usersList">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- FeedbackList -->
+            <div style="display: none;" id="feedbacklist" class="col-md-9">
+                <div class="profile-content">
+                    <h1>FeedBack</h1>
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table class="table" id="allFeedback">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col">Id</th>
+                                        <th scope="col">Email</th>
+                                        <th scope="col">Subject</th>
+                                        <th scope="col">Content</th>
+                                        <th scope="col">CreatedAt</th>
+                                        <th scope="col">Delete</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="allFeedBackList">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="../../resources/js/jquery-3.3.0.min.js"></script>
+<script type="text/javascript" src="../../resources/js/admindashboard.js"></script>
+<script type="text/javascript" src="../../resources/js/bootstrap.js"></script>
+
+</html>
