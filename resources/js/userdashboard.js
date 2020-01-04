@@ -1,7 +1,7 @@
 $(document).ready(
     function() {
         var noteid;
-        loadMyText();
+        loadMyCampaign();
         userName();
 
         $('#edituserprofile').on('keyup', function() {
@@ -104,7 +104,7 @@ $(document).ready(
         })
 
         // clicklistener for edit button on userdashboard
-        $('#notesList').on('click', '#edit', function() {
+        $('#campaignList').on('click', '#edit', function() {
             //this is the userid 
             noteid = $(this)[0].attributes.noteid.nodeValue;
 
@@ -127,31 +127,36 @@ $(document).ready(
                 }
             })
         })
-
-
-
         // clicklistener for edit button on userdashboard
-        $('#addNote').on('click', '#addmynote', function(e) {
+        $('#addCampaign').on('click', '#addmycampaign', function(e) {
             e.preventDefault();
-            var myNote = {
-                header: $('#addheader').val(),
-                content: $('#addcontent').val()
+            var myCampaign = {
+                post_name: $('#post_name').val(),
+                post_link: $('#post_link').val(),
+                total_days: $('#total_days').val(),
+                total_budget: $('#total_budget').val(),
+                age: $('#age').val(),
+                rate: "125",
+                status: "pending",
+                gender: $('#gender').val(),
+                area: $('#area').val(),
+                pages_id: '1'
             }
-            console.log(myNote);
+            console.log(myCampaign);
             $.ajax({
-                url: 'http://localhost:3001/v1/text/',
+                url: 'http://localhost:3001/v1/campaign/',
                 method: 'POST',
                 dataType: 'json',
                 headers: {
                     "Authorization": `bearer ${localStorage.getItem('token')}`
                 },
 
-                data: myNote,
+                data: myCampaign,
 
                 success: function(result) {
-                    $('#addNote')[0].reset();
+                    $('#addCampaign')[0].reset();
                     $('#message').html(result.message);
-                    loadMyText();
+                    // loadMyCampaign();
                 },
                 error: function() {
 
@@ -209,7 +214,7 @@ $(document).ready(
                 data: JSON.stringify(editData),
                 success: function(result) {
                     $('#exampleModal').modal("hide");
-                    loadMyText();
+                    loadMyCampaign();
                     // console.log(result)
                     // your logic here , redirect to another page or show message etc
                 },
@@ -222,7 +227,7 @@ $(document).ready(
         })
 
 
-        $('#notesList').on('click', '#delete', function() {
+        $('#campaignList').on('click', '#delete', function() {
             noteid = $(this)[0].attributes.noteid.nodeValue
             var isDelete = confirm("Are you sure?");
             if (isDelete == true) {
@@ -234,7 +239,7 @@ $(document).ready(
                         "Authorization": `bearer ${localStorage.getItem('token')}`
                     },
                     success: function() {
-                        loadMyText();
+                        loadMyCampaign();
                     },
                     error: function() {
 
@@ -282,9 +287,9 @@ $(document).ready(
 
     })
 
-function loadMyText() {
+function loadMyCampaign() {
     $.ajax({
-        url: "http://localhost:3001/v1/text/",
+        url: "http://localhost:3001/v1/campaign/",
         method: 'GET',
         dataType: 'json',
         headers: {
@@ -293,17 +298,19 @@ function loadMyText() {
         success: function(result, status) {
             // console.log(result);
             // result is sent from index.js as ajson file
-            $('#notesList').empty();
+            $('#campaignList').empty();
             for (key in result) {
-                $('#notesList').append('<tr ]\
+                $('#campaignList').append('<tr ]\
       <th scope="row">1</th>\
       <td>' + result[key].id + '</td>\
-      <td>' + result[key].header + '</td>\
-      <td>' + result[key].content + '</td>\
+      <td>' + result[key].post_name + '</td>\
+      <td>' + result[key].total_days + '</td>\
+      <td>' + result[key].total_budget + '</td>\
+      <td>' + result[key].status + '</td>\
       <td>' + result[key].createdAt + '</td>\
-       <td><label noteid="' + result[key].id + '" class="btn" data-toggle="modal" data-target="#exampleModal" id="edit" style="color: blue;" >Edit</label></td>\
-      <td><label noteid="' + result[key].id + '" class="btn" id="delete" style="color: red;" >Delete</label></td>\
-      <td><label noteid="' + result[key].id + '" class="btn" id="copy" style="color: #20d4c4;" >Copy</label></td>\
+      <td>' + result[key].rate + '</td>\
+      <td>' + result[key].dony_by + '</td>\
+      <td><label campaignid="' + result[key].id + '" class="btn" id="stop" style="color: #20d4c4;" >Stop</label></td>\
     </tr>')
             }
         },

@@ -84,7 +84,10 @@ Licensed under MIT
                             User Name
                         </div>
                         <div class="profile-usertitle-job">
-                            Normal Account
+                            Due Amount Rs: 0                            
+                        </div>
+                        <div class="profile-usertitle-job">
+                            Credit Amount Rs: 0
                         </div>
                     </div>
                     <!-- END SIDEBAR USER TITLE -->
@@ -100,17 +103,27 @@ Licensed under MIT
                             <li id="copiedtext" class="active list-group-item">
                                 <a href="#">
                                     <i class="zmdi zmdi-home"></i>
-                                    Copied Text </a>
+                                    Campaigns </a>
                             </li>
                             <li class="list-group-item" data-toggle="modal" data-target="#addNoteModel">
                                 <a href="#">
                                     <i class="zmdi zmdi-plus"></i>
-                                    Add a Note </a>
+                                    Request for a new Campaign</a>
+                            </li>
+                            <li class="list-group-item" data-toggle="modal" data-target="#addNoteModel">
+                                <a href="#">
+                                    <i class="zmdi zmdi-money"></i>
+                                    Request for a Payment</a>
                             </li>
                             <li id="showuserprofile" class="list-group-item">
                                 <a href="#">
                                     <i class="zmdi zmdi-face"></i>
                                     Profile </a>
+                            </li>
+                            <li id="showuserprofile" class="list-group-item">
+                                <a href="#">
+                                    <i class="zmdi zmdi-face"></i>
+                                    Documents</a>
                             </li>
                             <li class="list-group-item" data-toggle="modal" data-target="#sendFeedback">
                                 <a href="#">
@@ -135,20 +148,22 @@ Licensed under MIT
             <div id="textList" class="col-md-9">
                 <div class="profile-content">
                     <h3>Your all Campaigns</h3>
-                    <h6 class="float-right btn" data-toggle="modal" data-target="#addNoteModel">Add a note</h6>
+                    <h6 class="float-right btn" data-toggle="modal" data-target="#addNoteModel">Request for a new Campaign</h6>
                     <table class="table">
                         <thead class="thead-dark">
                             <tr>
                                 <th scope="col">Id</th>
-                                <th scope="col">Header</th>
-                                <th scope="col">Content</th>
-                                <th scope="col">CreatedAt</th>
-                                <th scope="col">Edit</th>
-                                <th scope="col">Delete</th>
-                                <th scope="col">Copy</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">days</th>
+                                <th scope="col">budget</th>
+                                <th scope="col">status</th>
+                                <th scope="col">date</th>
+                                <th scope="col">rate</th>
+                                <th scope="col">done_by</th>
+                                <th scope="col">Stop</th>
                             </tr>
                         </thead>
-                        <tbody id="notesList">
+                        <tbody id="campaignList">
                             <!--     <tr>
       <th scope="row">1</th>
       <td>Mark</td>
@@ -307,39 +322,69 @@ Licensed under MIT
     <div class="modal fade" id="addNoteModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header">
+                <!-- <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Your every note are safe with us</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                </div>
+                </div> -->
                 <div class="modal-body">
-                    <form class="form-horizontal" id="addNote" method="POST">
+                    <form class="form-horizontal" id="addCampaign" method="POST">
                         <fieldset>
-                            <legend>Add a Note</legend>
+                            <legend>Details for a Campaign</legend>
                             <div class="form-group">
-                                <div class="col-md-4">
-                                    <input id="addheader" name="addheader" type="text" placeholder="Title" class="form-control input-md">
+                                <div class="col-md-9">
+                                    <input id="post_name" name="post_name" type="text" placeholder="Post-name" class="form-control input-md">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="col-md-12">
-                                    <textarea rows="10" id="addcontent" name="addcontent" type="text" placeholder="Content" class="form-control input-md"></textarea>
+                                <div class="col-md-9">
+                                    <input id="post_link" name="post_link" type="text" placeholder="Post-link" class="form-control input-md">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-9">
+                                    <input id="total_days" name="total_days" type="text" placeholder="Total Days" class="form-control input-md">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-9">
+                                    <input id="total_budget" name="total_budget" type="text" placeholder="Total Budget" class="form-control input-md">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-9">
+                                    <input id="age" name="age" type="text" placeholder="Age" class="form-control input-md">
+                                </div>
+                            </div>
+                             <div class="form-group">
+                            <div class="col-md-9">                                
+                                <select id="gender" class="form-control" id="sel1">                                
+                                    <option>Male</option>
+                                    <option>Female</option>
+                                    <option>Both</option>
+                                </select>
+                            </div>
+                        </div>
+                            <div class="form-group">
+                                <div class="col-md-11">
+                                    <textarea rows="4" id="area" name="area" type="text" placeholder="Area" class="form-control input-md"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-11">
+                                    <textarea rows="4" id="interest" name="interest" type="text" placeholder="Interest (Optional)" class="form-control input-md"></textarea>
                                 </div>
                             </div>
                             <p id="message"></p>
                             <div class="form-group">
                                 <div class="col-md-4">
-                                    <button id="addmynote" name="submit" class="btn btn-info">Add</button>
+                                    <button id="addmycampaign" name="submit" class="btn btn-info">Send</button>
                                 </div>
                             </div>
                         </fieldset>
                     </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
-                </div>
+                </div>          
             </div>
         </div>
     </div>
