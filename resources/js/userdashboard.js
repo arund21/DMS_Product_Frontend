@@ -15,20 +15,35 @@ $(document).ready(
         $('#copiedtext').click(function() {
             $('#userprofile').hide();
             $('#textList').show();
+            $('#pageList').hide();
             $('#userhelp').hide();
             $('#copiedtext').addClass('active');
             $('#showuserprofile').removeClass('active');
             $('#showuserhelp').removeClass('active');
+            $('#showuserpages').removeClass('active');
+        })
+
+        $('#showuserhelp').click(function() {
+            $('#userprofile').hide();
+            $('#pageList').hide();
+            $('#textList').hide();
+            $('#userhelp').show();
+            $('#copiedtext').removeClass('active');
+            $('#showuserprofile').removeClass('active');
+            $('#showuserpages').removeClass('active');
+            $('#showuserhelp').addClass('active');
         })
 
 
         $('#showuserprofile').click(function() {
             $('#userprofile').show();
+            $('#pageList').hide();
             $('#textList').hide();
             $('#userhelp').hide();
             $('#copiedtext').removeClass('active');
             $('#showuserprofile').addClass('active');
             $('#showuserhelp').removeClass('active');
+            $('#showuserpages').removeClass('active');
 
 
             $.ajax({
@@ -54,14 +69,43 @@ $(document).ready(
 
         })
 
-        $('#showuserhelp').click(function() {
+        $('#showuserpages').click(function() {
+            $('#pageList').show();
             $('#userprofile').hide();
             $('#textList').hide();
-            $('#userhelp').show();
+            $('#userhelp').hide();
             $('#copiedtext').removeClass('active');
+            $('#showuserpages').addClass('active');
             $('#showuserprofile').removeClass('active');
-            $('#showuserhelp').addClass('active');
+            $('#showuserhelp').removeClass('active');
+    $.ajax({
+        url: "http://localhost:3001/v1/findPages/",
+        method: 'GET',
+        dataType: 'json',
+        headers: {
+            "Authorization": `bearer ${localStorage.getItem('token')}`
+        },
+        success: function(result, status) {
+            // console.log(result);
+            // result is sent from index.js as ajson file
+            $('#mypageList').empty();
+            for (key in result) {
+                $('#mypageList').append('<tr ]\
+      <th scope="row">1</th>\
+      <td>' + result[key].id + '</td>\
+      <td>' + result[key].page_name + '</td>\
+      <td>' + result[key].page_username + '</td>\
+      <td>' + result[key].status + '</td>\
+      <td>' + result[key].purpose + '</td>\
+    </tr>')
+            }
+        },
+        error: function(jqXHR, status) {}
+    })
+
+
         })
+
 
 
         $('#edituserprofile').on('click', '#editprofile', function(e) {
@@ -317,6 +361,9 @@ function loadMyCampaign() {
         error: function(jqXHR, status) {}
     })
 }
+
+
+
 
 function userName() {
     $.ajax({

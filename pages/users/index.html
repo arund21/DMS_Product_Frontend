@@ -84,7 +84,7 @@ Licensed under MIT
                             User Name
                         </div>
                         <div class="profile-usertitle-job">
-                            Due Amount Rs: 0                            
+                            Due Amount Rs: 0
                         </div>
                         <div class="profile-usertitle-job">
                             Credit Amount Rs: 0
@@ -105,10 +105,10 @@ Licensed under MIT
                                     <i class="zmdi zmdi-home"></i>
                                     Campaigns </a>
                             </li>
-                            <li class="list-group-item" data-toggle="modal" data-target="#addNoteModel">
+                            <li id="showuserpages" class="list-group-item">
                                 <a href="#">
-                                    <i class="zmdi zmdi-plus"></i>
-                                    Request for a new Campaign</a>
+                                    <i class="zmdi zmdi-book"></i>
+                                    My Pages</a>
                             </li>
                             <li class="list-group-item" data-toggle="modal" data-target="#addNoteModel">
                                 <a href="#">
@@ -120,9 +120,9 @@ Licensed under MIT
                                     <i class="zmdi zmdi-face"></i>
                                     Profile </a>
                             </li>
-                            <li id="showuserprofile" class="list-group-item">
+                            <li id="showuserdocuments" class="list-group-item">
                                 <a href="#">
-                                    <i class="zmdi zmdi-face"></i>
+                                    <i class="zmdi zmdi-file"></i>
                                     Documents</a>
                             </li>
                             <li class="list-group-item" data-toggle="modal" data-target="#sendFeedback">
@@ -147,7 +147,7 @@ Licensed under MIT
             </div>
             <div id="textList" class="col-md-9">
                 <div class="profile-content">
-                    <h3>Your all Campaigns</h3>
+                    <h3>All Campaigns</h3>
                     <h6 class="float-right btn" data-toggle="modal" data-target="#addNoteModel">Request for a new Campaign</h6>
                     <table class="table">
                         <thead class="thead-dark">
@@ -212,6 +212,32 @@ Licensed under MIT
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div style="display: none;" id="pageList" class="col-md-9">
+                <div class="profile-content">
+                    <h3>All Pages</h3>
+                    <h6 class="float-right btn" data-toggle="modal" data-target="#newPage">Request for a new Page</h6>
+                    <table class="table">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">Id</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Username</th>
+                                <th scope="col">Status</th>                                
+                                <th scope="col">Purpose</th>                               
+                            </tr>
+                        </thead>
+                        <tbody id="mypageList">
+                            <!--     <tr>
+      <th scope="row">1</th>
+      <td>Mark</td>
+      <td>Otto</td>  
+      <td><button type="button" id="edit" data-toggle="modal" data-target="#exampleModal" class="btn btn-primary">Edit</button></td>
+      <td><button type="button" id="delete" class="btn btn-danger">Delete</button></td>
+</tr>    -->
+                        </tbody>
+                    </table>
                 </div>
             </div>
             <!-- User Profile -->
@@ -357,15 +383,15 @@ Licensed under MIT
                                     <input id="age" name="age" type="text" placeholder="Age" class="form-control input-md">
                                 </div>
                             </div>
-                             <div class="form-group">
-                            <div class="col-md-9">                                
-                                <select id="gender" class="form-control" id="sel1">                                
-                                    <option>Male</option>
-                                    <option>Female</option>
-                                    <option>Both</option>
-                                </select>
+                            <div class="form-group">
+                                <div class="col-md-9">
+                                    <select id="gender" class="form-control" id="sel1">
+                                        <option>Male</option>
+                                        <option>Female</option>
+                                        <option>Both</option>
+                                    </select>
+                                </div>
                             </div>
-                        </div>
                             <div class="form-group">
                                 <div class="col-md-11">
                                     <textarea rows="4" id="area" name="area" type="text" placeholder="Area" class="form-control input-md"></textarea>
@@ -384,10 +410,46 @@ Licensed under MIT
                             </div>
                         </fieldset>
                     </form>
-                </div>          
+                </div>
             </div>
         </div>
     </div>
+
+<!-- Model for create new pages-->
+    <div class="modal fade" id="newPage" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <form class="form-horizontal" id="addPage" method="POST">
+                        <fieldset>
+                            <legend>Details for a Page</legend>
+                            <div class="form-group">
+                                <div class="col-md-9">
+                                    <input id="page_name" name="page_name" type="text" placeholder="Page-name" class="form-control input-md">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-9">
+                                    <input id="purpose" name="purpose" type="text" placeholder="Purpose for creating new page" class="form-control input-md">
+                                </div>
+                            </div>
+                            <p id="message"></p>
+                            <div class="form-group">
+                                <div class="col-md-4">
+                                    <button id="addmycampaign" name="submit" class="btn btn-info">Send</button>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
     <!-- Modal -->
     <div class="modal fade" id="sendFeedback" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
