@@ -78,30 +78,7 @@ $(document).ready(
             $('#showuserpages').addClass('active');
             $('#showuserprofile').removeClass('active');
             $('#showuserhelp').removeClass('active');
-    $.ajax({
-        url: "http://localhost:3001/v1/findPages/",
-        method: 'GET',
-        dataType: 'json',
-        headers: {
-            "Authorization": `bearer ${localStorage.getItem('token')}`
-        },
-        success: function(result, status) {
-            // console.log(result);
-            // result is sent from index.js as ajson file
-            $('#mypageList').empty();
-            for (key in result) {
-                $('#mypageList').append('<tr ]\
-      <th scope="row">1</th>\
-      <td>' + result[key].id + '</td>\
-      <td>' + result[key].page_name + '</td>\
-      <td>' + result[key].page_username + '</td>\
-      <td>' + result[key].status + '</td>\
-      <td>' + result[key].purpose + '</td>\
-    </tr>')
-            }
-        },
-        error: function(jqXHR, status) {}
-    })
+            loadMyPages();
 
 
         })
@@ -200,7 +177,34 @@ $(document).ready(
                 success: function(result) {
                     $('#addCampaign')[0].reset();
                     $('#message').html(result.message);
-                    // loadMyCampaign();
+                    loadMyCampaign();
+                },
+                error: function() {
+
+                }
+            })
+        })
+        // clicklistener for request a new page
+        $('#addPage').on('click', '#requestmypage', function(e) {
+            e.preventDefault();
+            var myPage = {
+                page_name: $('#page_name').val(),
+                purpose: $('#purpose').val()
+            }
+            // console.log(myPage);
+            $.ajax({
+                url: 'http://localhost:3001/v1/requestpage/',
+                method: 'POST',
+                dataType: 'json',
+                headers: {
+                    "Authorization": `bearer ${localStorage.getItem('token')}`
+                },
+                data: myPage,
+                success: function(result) {
+                    $('#addPage')[0].reset();
+                    // console.log(result.message)
+                    $('#message').html(result.message);
+                    loadMyPages();
                 },
                 error: function() {
 
@@ -330,6 +334,33 @@ $(document).ready(
 
 
     })
+
+function loadMyPages() {
+    $.ajax({
+        url: "http://localhost:3001/v1/findPages/",
+        method: 'GET',
+        dataType: 'json',
+        headers: {
+            "Authorization": `bearer ${localStorage.getItem('token')}`
+        },
+        success: function(result, status) {
+            console.log(result);
+            // result is sent from index.js as ajson file
+            $('#mypageList').empty();
+            for (key in result) {
+                $('#mypageList').append('<tr ]\
+      <th scope="row">1</th>\
+      <td>' + result[key].id + '</td>\
+      <td>' + result[key].page_name + '</td>\
+      <td>' + result[key].page_username + '</td>\
+      <td>' + result[key].status + '</td>\
+      <td>' + result[key].purpose + '</td>\
+    </tr>')
+            }
+        },
+        error: function(jqXHR, status) {}
+    })
+}
 
 function loadMyCampaign() {
     $.ajax({
