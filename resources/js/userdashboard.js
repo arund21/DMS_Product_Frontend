@@ -1,6 +1,7 @@
 $(document).ready(
     function() {
         var noteid;
+        var campaignid;
         loadMyCampaign();
         userName();
 
@@ -16,22 +17,26 @@ $(document).ready(
             $('#userprofile').hide();
             $('#textList').show();
             $('#pageList').hide();
+            $('#paymentList').hide();
             $('#userhelp').hide();
             $('#copiedtext').addClass('active');
             $('#showuserprofile').removeClass('active');
             $('#showuserhelp').removeClass('active');
             $('#showuserpages').removeClass('active');
+            $('#showmypayments').removeClass('active');
         })
 
         $('#showuserhelp').click(function() {
             $('#userprofile').hide();
             $('#pageList').hide();
             $('#textList').hide();
+            $('#paymentList').hide();
             $('#userhelp').show();
             $('#copiedtext').removeClass('active');
             $('#showuserprofile').removeClass('active');
             $('#showuserpages').removeClass('active');
             $('#showuserhelp').addClass('active');
+            $('#showmypayments').removeClass('active');
         })
 
 
@@ -39,11 +44,13 @@ $(document).ready(
             $('#userprofile').show();
             $('#pageList').hide();
             $('#textList').hide();
+            $('#paymentList').hide();
             $('#userhelp').hide();
             $('#copiedtext').removeClass('active');
             $('#showuserprofile').addClass('active');
             $('#showuserhelp').removeClass('active');
             $('#showuserpages').removeClass('active');
+            $('#showmypayments').removeClass('active');
 
 
             $.ajax({
@@ -73,16 +80,31 @@ $(document).ready(
             $('#pageList').show();
             $('#userprofile').hide();
             $('#textList').hide();
+            $('#paymentList').hide();
             $('#userhelp').hide();
             $('#copiedtext').removeClass('active');
             $('#showuserpages').addClass('active');
             $('#showuserprofile').removeClass('active');
             $('#showuserhelp').removeClass('active');
+            $('#showmypayments').removeClass('active');
             loadMyPages();
 
 
         })
 
+        $('#showmypayments').click(function() {
+            $('#paymentList').show();
+            $('#pageList').hide();
+            $('#userprofile').hide();
+            $('#textList').hide();
+            $('#userhelp').hide();
+            $('#copiedtext').removeClass('active');
+            $('#showmypayments').addClass('active');
+            $('#showuserpages').removeClass('active');
+            $('#showuserprofile').removeClass('active');
+            $('#showuserhelp').removeClass('active');
+            // loadMyPages();
+        })
 
 
         $('#edituserprofile').on('click', '#editprofile', function(e) {
@@ -106,6 +128,30 @@ $(document).ready(
                 data: edituserData,
                 success: function(result, status) {
                     userName();
+                    $('#message').html(result.message);
+                },
+                error: function(jqXHR, status) {}
+            })
+        })
+
+        $('#PaymentDetails').on('click', '#requestmypayment', function(e) {
+            e.preventDefault();
+            var requestPaymentData = {
+                date: $('#date').val(),
+                amount: $('#amount').val(),
+                method: $('#paymentmethod').val()
+            }
+            $.ajax({
+                url: "http://localhost:3001/v1/requestpayment/",
+                method: 'POST',
+                dataType: 'json',
+                headers: {
+                    "Authorization": `bearer ${localStorage.getItem('token')}`
+                },
+                // data:JSON.stringify(editadminData),
+                data: requestPaymentData,
+                success: function(result, status) {
+                    $('#PaymentDetails')[0].reset();
                     $('#message').html(result.message);
                 },
                 error: function(jqXHR, status) {}
@@ -184,6 +230,45 @@ $(document).ready(
                 }
             })
         })
+
+$(document).off("click",".StopBoostingBtn").on("click",".StopBoostingBtn",function(e){
+    e.preventDefault()
+    $('#campaignid').val($(this).attr("campaignid"))
+})
+
+        $('#stopBoost').submit(function(e) {
+            e.preventDefault();            
+            var stopBoostData = {
+                boost_id: $('#campaignid').val(),
+                reason: $('#reason').val()
+            }
+
+            $.ajax({
+
+                url: "http://localhost:3001/v1/stopboostrequest/",
+                method: "POST",
+                contentType: 'application/json',
+                dataType: 'json',
+                headers: {
+                    "Authorization": `bearer ${localStorage.getItem('token')}`
+                },
+                data: JSON.stringify(stopBoostData),
+                success: function(result) {
+                    $('#message').html(result.message);
+                    // $('#exampleModal').modal("hide");
+                    loadMyCampaign();
+                    // console.log(result)
+                    // your logic here , redirect to another page or show message etc
+                },
+                error: function() {
+
+                }
+
+            })
+
+        })
+
+
         // clicklistener for request a new page
         $('#addPage').on('click', '#requestmypage', function(e) {
             e.preventDefault();
@@ -362,7 +447,38 @@ function loadMyPages() {
     })
 }
 
+function findMyPayments() {
+    $.ajax({
+        url: "http://localhost:3001/v1/findPayments/",
+        method: 'GET',
+        dataType: 'json',
+        headers: {
+            "Authorization": `bearer ${localStorage.getItem('token')}`
+        },
+        success: function(result, status) {
+            console.log(result);
+            // result is sent from index.js as ajson file
+            $('#myPaymentList').empty();
+            for (key in result) {
+                $('#myPaymentList').append('<tr ]\
+      <th scope="row">1</th>\
+      <td>' + result[key].id + '</td>\
+      <td>' + result[key].date + '</td>\
+      <td>' + result[key].amount + '</td>\
+      <td>' + result[key].method + '</td>\
+      <td>' + result[key].description + '</td>\
+    </tr>')
+            }
+        },
+        error: function(jqXHR, status) {}
+    })
+}
+
 function loadMyCampaign() {
+    var chagedate=function(date){
+        var temp=new Date(date)
+        return temp.getFullYear()+"-"+(temp.getMonth()+1)+"-"+temp.getDay()
+    }
     $.ajax({
         url: "http://localhost:3001/v1/campaign/",
         method: 'GET',
@@ -382,16 +498,18 @@ function loadMyCampaign() {
       <td>' + result[key].total_days + '</td>\
       <td>' + result[key].total_budget + '</td>\
       <td>' + result[key].status + '</td>\
-      <td>' + result[key].createdAt + '</td>\
+      <td>' + chagedate(result[key].createdAt) + '</td>\
       <td>' + result[key].rate + '</td>\
       <td>' + result[key].dony_by + '</td>\
-      <td><label campaignid="' + result[key].id + '" class="btn" id="stop" style="color: #20d4c4;" >Stop</label></td>\
+      <td><label campaignid="' + result[key].id + '" class="btn StopBoostingBtn" style="color: #20d4c4;" data-toggle="modal" data-target="#boostStop">Stop</label></td>\
     </tr>')
             }
         },
         error: function(jqXHR, status) {}
     })
 }
+
+
 
 
 
@@ -471,3 +589,14 @@ $(document).on('change', '#ChangeProfile', function() {
         });
     }
 });
+
+function validateRealDate(element) {
+    if(!element.value) return;
+    let date = new Date(element.value);
+    let minDate = new Date();
+    minDate.setDate(minDate.getDate()-1);
+    if(minDate.getTime() > date.getTime()+1) {
+        $(element).val('');
+    }
+    console.log(minDate.getTime(), date.getTime());
+}

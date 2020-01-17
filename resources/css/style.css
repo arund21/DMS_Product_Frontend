@@ -217,3 +217,26 @@ Licensed under MIT
     width: 30px;
 }
 
+
+.modal.fade{
+  animation: popup 300ms;
+}
+
+.modal>.modal-dialog{
+  display: flex;
+  height: 90%;
+  /*transform: translate(-100%, -100%);*/
+}
+.modal>.modal-dialog>.modal-content{
+  height: fit-content;
+  margin: auto;
+}
+
+@keyframes popup {
+  0%{
+    transform: scale(0.5);
+  }
+  100%{
+    transform: scale(1);
+  }
+}

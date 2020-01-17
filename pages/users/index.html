@@ -110,10 +110,10 @@ Licensed under MIT
                                     <i class="zmdi zmdi-book"></i>
                                     My Pages</a>
                             </li>
-                            <li class="list-group-item" data-toggle="modal" data-target="#addNoteModel">
+                            <li id="showmypayments" class="list-group-item">
                                 <a href="#">
                                     <i class="zmdi zmdi-money"></i>
-                                    Request for a Payment</a>
+                                    Payments</a>
                             </li>
                             <li id="showuserprofile" class="list-group-item">
                                 <a href="#">
@@ -224,22 +224,37 @@ Licensed under MIT
                                 <th scope="col">Id</th>
                                 <th scope="col">Name</th>
                                 <th scope="col">Username</th>
-                                <th scope="col">Status</th>                                
-                                <th scope="col">Purpose</th>                               
+                                <th scope="col">Status</th>
+                                <th scope="col">Purpose</th>
                             </tr>
                         </thead>
                         <tbody id="mypageList">
-                            <!--     <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>  
-      <td><button type="button" id="edit" data-toggle="modal" data-target="#exampleModal" class="btn btn-primary">Edit</button></td>
-      <td><button type="button" id="delete" class="btn btn-danger">Delete</button></td>
-</tr>    -->
+
                         </tbody>
                     </table>
                 </div>
             </div>
+
+            <div style="display: none;" id="paymentList" class="col-md-9">
+                <div class="profile-content">
+                    <h3>All Payments</h3>
+                    <h6 class="float-right btn" data-toggle="modal" data-target="#requestPayment">Request for a Payment</h6>
+                    <table class="table">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">Id</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Amount</th>
+                                <th scope="col">Method</th>
+                                <th scope="col">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody id="myPaymentList">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
             <!-- User Profile -->
             <div style="display: none;" id="userprofile" class="col-md-9">
                 <div class="profile-content">
@@ -414,8 +429,45 @@ Licensed under MIT
             </div>
         </div>
     </div>
-
-<!-- Model for create new pages-->
+    <!-- Modal -->
+    <div class="modal fade" id="requestPayment" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <form class="form-horizontal" id="PaymentDetails" method="POST">
+                        <fieldset>
+                            <legend>Payment Details</legend>
+                            <label for="amount">Amount:</label>
+                            <div class="form-group">
+                                <div class="col-md-9">
+                                    <input id="amount" name="amount" type="text" placeholder="Amount" class="form-control input-md">
+                                </div>
+                            </div>
+                            <label for="method">Method:</label>
+                            <div class="form-group">
+                                <div class="col-md-9">
+                                    <select id="paymentmethod" class="form-control" id="sel1">
+                                        <option>Handcash</option>
+                                        <option>E-sewa</option>
+                                        <option>Bank Deposit</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <label for="start">Date:</label>
+                            <input type="date" id="date" name="trip-start" onchange="validateRealDate(this)">
+                            <p id="message"></p>
+                            <div class="form-group">
+                                <div class="col-md-4">
+                                    <button id="requestmypayment" name="submit" class="btn btn-info">Send</button>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Model for create new pages-->
     <div class="modal fade" id="newPage" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -423,17 +475,19 @@ Licensed under MIT
                     <form class="form-horizontal" id="addPage" method="POST">
                         <fieldset>
                             <legend>Details for a Page</legend>
+                            <label for="page-name">Page Name</label>                            
                             <div class="form-group">
                                 <div class="col-md-9">
                                     <input id="page_name" name="page_name" type="text" placeholder="Page-name" class="form-control input-md">
                                 </div>
                             </div>
+                            <label for="purpose">Purpose for creating new Page:</label>
                             <div class="form-group">
                                 <div class="col-md-9">
                                     <input id="purpose" name="purpose" type="text" placeholder="Purpose for creating new page" class="form-control input-md">
                                 </div>
                             </div>
-                            <p id="message">dy</p>
+                            <p id="message"></p>
                             <div class="form-group">
                                 <div class="col-md-4">
                                     <button id="requestmypage" name="submit" class="btn btn-info">Send</button>
@@ -445,11 +499,32 @@ Licensed under MIT
             </div>
         </div>
     </div>
-
-
-
-
-
+        <!-- Model for requesting to stop campaign-->
+    <div class="modal fade" id="boostStop" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <form class="form-horizontal" id="stopBoost" method="POST">
+                        <fieldset>
+                            <legend>Reason to stop</legend>                            
+                            <div class="form-group">
+                                <div class="col-md-9">
+                                    <input id="reason" name="reason" type="text" placeholder="Why do you want to stop?" class="form-control input-md">
+                                </div>
+                            </div>  
+                            <input type="hidden" id="campaignid" name="campaignid">                          
+                            <p id="message"></p>
+                            <div class="form-group">
+                                <div class="col-md-4">
+                                    <button id="requestToStop" name="submit" class="btn btn-info">Send</button>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Modal -->
     <div class="modal fade" id="sendFeedback" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
